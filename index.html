@@ -32,7 +32,8 @@
     display: flex;
     justify-content: center;
     align-items: flex-start;
-    overflow: hidden;
+    overflow: visible;
+    padding-bottom: 60px; /* room for box-shadow */
   }
 
   /* ===== MAIN CARD — 640px natural width ===== */
@@ -270,7 +271,7 @@
   function scaleWidget() {
     const scale = Math.min(1, window.innerWidth / NATURAL_W);
     card.style.transform = `scale(${scale})`;
-    wrapper.style.height = Math.round(card.offsetHeight * scale) + 'px';
+    wrapper.style.height = Math.round(card.offsetHeight * scale + 60) + 'px';
   }
   scaleWidget();
   window.addEventListener('resize', scaleWidget);
