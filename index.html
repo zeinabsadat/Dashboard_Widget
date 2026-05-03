@@ -33,7 +33,7 @@
     justify-content: center;
     align-items: flex-start;
     overflow: visible;
-    padding-bottom: 60px; /* room for box-shadow */
+    padding: 8px 0 16px; /* small room for tight shadow */
   }
 
   /* ===== MAIN CARD — 640px natural width ===== */
@@ -46,8 +46,8 @@
     padding: 12px;
     transform-origin: top center;
     box-shadow:
-      0 16px 48px rgba(122, 98, 72, 0.16),
-      0 4px 12px rgba(0, 0, 0, 0.06);
+      0 4px 14px rgba(122, 98, 72, 0.18),
+      0 1px 4px rgba(0, 0, 0, 0.07);
   }
 
   /* ===== SINGLE HORIZONTAL ROW ===== */
@@ -271,7 +271,7 @@
   function scaleWidget() {
     const scale = Math.min(1, window.innerWidth / NATURAL_W);
     card.style.transform = `scale(${scale})`;
-    wrapper.style.height = Math.round(card.offsetHeight * scale + 60) + 'px';
+    wrapper.style.height = Math.round(card.offsetHeight * scale + 24) + 'px';
   }
   scaleWidget();
   window.addEventListener('resize', scaleWidget);
