@@ -9,66 +9,77 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;1,500;1,600&family=Inter:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root {
-    --parchment:   #f9f6f2;
-    --eggshell:    #f0ead6;
-    --floral-white:#fff9f0;
-    --soft-linen:  #eae3d6;
-    /* derived accents */
-    --warm-brown:  #7a6248;
-    --deep-brown:  #3a2a1a;
-    --mid-tone:    #c8b89a;
+    --parchment:    #f9f6f2;
+    --eggshell:     #f0ead6;
+    --floral-white: #fff9f0;
+    --soft-linen:   #eae3d6;
+    --warm-brown:   #7a6248;
+    --deep-brown:   #3a2a1a;
+    --mid-tone:     #c8b89a;
   }
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-  html, body {
+  html {
+    width: 100%;
+    background: transparent;
+  }
+
+  body {
+    width: 100%;
     background: transparent;
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
-    min-height: 100vh;
+    padding: 0;
   }
 
-  /* ===== MAIN CONTAINER ===== */
+  /* ===== MAIN CONTAINER — fluid width ===== */
   .main-card {
     background: var(--soft-linen);
     border-radius: 32px;
-    padding: 14px;
+    padding: 12px;
     display: flex;
     flex-direction: column;
-    gap: 12px;
-    width: 440px;
+    gap: 10px;
+    width: 100%;
+    max-width: 440px;
     box-shadow:
-      0 20px 60px rgba(122, 98, 72, 0.18),
-      0 4px 12px rgba(0,0,0,0.07);
+      0 16px 48px rgba(122, 98, 72, 0.16),
+      0 4px 12px rgba(0,0,0,0.06);
   }
 
   /* ===== TOP ROW ===== */
   .top-row {
     display: flex;
-    gap: 12px;
+    gap: 10px;
   }
 
-  /* ===== CLOCK CARD ===== */
+  /* ===== CLOCK CARD — square, flex-1 ===== */
   .clock-card {
-    width: 206px;
-    height: 206px;
+    flex: 1;
+    min-width: 0;
+    aspect-ratio: 1 / 1;
     background: var(--floral-white);
-    border-radius: 28px;
+    border-radius: 24px;
     box-shadow:
-      0 8px 24px rgba(122,98,72,0.12),
-      0 2px 6px rgba(0,0,0,0.04),
-      inset 0 0 0 1px rgba(122,98,72,0.08);
+      0 6px 20px rgba(122,98,72,0.10),
+      0 2px 5px rgba(0,0,0,0.04),
+      inset 0 0 0 1px rgba(122,98,72,0.07);
     display: flex;
     align-items: center;
     justify-content: center;
-    flex-shrink: 0;
+    overflow: hidden;
   }
+
+  /* Clock internals keep fixed px; JS scales the whole thing */
   .clock {
     width: 154px;
     height: 154px;
     position: relative;
+    transform-origin: center center;
+    flex-shrink: 0;
   }
   .tick {
     position: absolute;
@@ -102,24 +113,25 @@
     z-index: 5;
   }
 
-  /* ===== GALLERY CARD ===== */
+  /* ===== GALLERY CARD — square, flex-1 ===== */
   .photo-card {
     flex: 1;
-    height: 206px;
+    min-width: 0;
+    aspect-ratio: 1 / 1;
     background: var(--floral-white);
-    border-radius: 28px;
+    border-radius: 24px;
     box-shadow:
-      0 8px 24px rgba(122,98,72,0.12),
-      0 2px 6px rgba(0,0,0,0.04),
-      inset 0 0 0 1px rgba(122,98,72,0.08);
-    padding: 11px;
+      0 6px 20px rgba(122,98,72,0.10),
+      0 2px 5px rgba(0,0,0,0.04),
+      inset 0 0 0 1px rgba(122,98,72,0.07);
+    padding: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
   }
   .photo-frame {
     width: 100%; height: 100%;
-    border-radius: 20px;
+    border-radius: 16px;
     overflow: hidden;
     background: var(--eggshell);
     position: relative;
@@ -138,7 +150,7 @@
   }
   .slide.active { opacity: 1; transform: scale(1.08); }
   .loading {
-    width: 22px; height: 22px;
+    width: 20px; height: 20px;
     border: 2px solid var(--soft-linen);
     border-top-color: var(--warm-brown);
     border-radius: 50%;
@@ -146,51 +158,53 @@
   }
   @keyframes spin { to { transform: rotate(360deg); } }
 
-  /* ===== QUOTES CARD ===== */
+  /* ===== QUOTES CARD — full width ===== */
   .quote-card {
     width: 100%;
-    height: 200px;
     background: var(--floral-white);
-    border-radius: 28px;
+    border-radius: 24px;
     box-shadow:
-      0 8px 24px rgba(122,98,72,0.12),
-      0 2px 6px rgba(0,0,0,0.04),
-      inset 0 0 0 1px rgba(122,98,72,0.08);
-    padding: 11px;
+      0 6px 20px rgba(122,98,72,0.10),
+      0 2px 5px rgba(0,0,0,0.04),
+      inset 0 0 0 1px rgba(122,98,72,0.07);
+    padding: 10px;
   }
   .quote-inner {
-    width: 100%; height: 100%;
+    width: 100%;
+    /* height matches the two cards above — set by JS */
+    min-height: 120px;
     background: var(--eggshell);
-    border-radius: 20px;
+    border-radius: 16px;
     position: relative;
     overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
-  /* subtle warm vignette for depth */
   .quote-inner::before {
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(135deg, rgba(249,246,242,0.6) 0%, transparent 55%);
-    border-radius: 20px;
+    background: linear-gradient(135deg, rgba(249,246,242,0.55) 0%, transparent 55%);
     pointer-events: none;
   }
   .quote-mark {
     position: absolute;
-    top: -6px; left: 16px;
+    top: -4px; left: 14px;
     font-family: 'Cormorant Garamond', serif;
     font-style: italic;
     font-weight: 600;
-    font-size: 80px;
+    font-size: 72px;
     line-height: 1;
     color: var(--warm-brown);
-    opacity: 0.22;
+    opacity: 0.2;
     pointer-events: none;
     user-select: none;
   }
   .quote-slide {
     position: absolute;
     inset: 0;
-    padding: 24px 30px 20px;
+    padding: 20px 26px 18px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -205,36 +219,35 @@
     font-family: 'Cormorant Garamond', serif;
     font-style: italic;
     font-weight: 500;
-    font-size: 19px;
-    line-height: 1.4;
+    line-height: 1.45;
     color: var(--deep-brown);
     margin: 0 0 10px 0;
   }
   .divider {
-    width: 26px; height: 1.5px;
+    width: 24px; height: 1.5px;
     background: var(--mid-tone);
     border-radius: 1px;
     margin-bottom: 8px;
   }
   .quote-author {
     font-family: 'Inter', sans-serif;
-    font-size: 10px;
+    font-size: 9px;
     font-weight: 500;
     color: var(--warm-brown);
-    letter-spacing: 0.9px;
+    letter-spacing: 1px;
     text-transform: uppercase;
   }
 </style>
 </head>
 <body>
 
-<div class="main-card">
+<div class="main-card" id="mainCard">
 
   <!-- TOP ROW: Clock + Gallery -->
   <div class="top-row">
 
     <!-- Clock -->
-    <div class="clock-card">
+    <div class="clock-card" id="clockCard">
       <div class="clock" id="clock">
         <div class="hand hour"   id="hourHand"></div>
         <div class="hand minute" id="minuteHand"></div>
@@ -253,8 +266,8 @@
   </div>
 
   <!-- BOTTOM: Quotes -->
-  <div class="quote-card">
-    <div class="quote-inner">
+  <div class="quote-card" id="quoteCard">
+    <div class="quote-inner" id="quoteInner">
       <div class="quote-mark">"</div>
       <div id="quoteContainer"></div>
     </div>
@@ -265,11 +278,13 @@
 <script>
 /* ==================== CLOCK ==================== */
 (function() {
+  const clockCard = document.getElementById('clockCard');
   const clockEl   = document.getElementById('clock');
   const hourHand  = document.getElementById('hourHand');
   const minHand   = document.getElementById('minuteHand');
   const secHand   = document.getElementById('secondHand');
 
+  // Add tick marks
   for (let i = 0; i < 12; i++) {
     const tick = document.createElement('div');
     tick.className = 'tick';
@@ -277,15 +292,33 @@
     clockEl.appendChild(tick);
   }
 
+  // Scale the 154px clock to fit inside its card
+  function scaleClock() {
+    const cardSize = clockCard.clientWidth;
+    const scale = (cardSize * 0.74) / 154;
+    clockEl.style.transform = `scale(${scale})`;
+  }
+  scaleClock();
+  new ResizeObserver(scaleClock).observe(clockCard);
+
+  // Sync quote-inner height to match clock-card height
+  function syncQuoteHeight() {
+    const h = clockCard.clientHeight;
+    document.getElementById('quoteInner').style.height = h + 'px';
+  }
+  syncQuoteHeight();
+  new ResizeObserver(syncQuoteHeight).observe(clockCard);
+
+  // Update hands
   function updateClock() {
     const now = new Date();
     const h  = now.getHours() % 12;
     const m  = now.getMinutes();
     const s  = now.getSeconds();
     const ms = now.getMilliseconds();
-    hourHand.style.transform  = `rotate(${(h + m / 60) * 30}deg)`;
-    minHand.style.transform   = `rotate(${(m + s / 60) * 6}deg)`;
-    secHand.style.transform   = `rotate(${(s + ms / 1000) * 6}deg)`;
+    hourHand.style.transform = `rotate(${(h + m / 60) * 30}deg)`;
+    minHand.style.transform  = `rotate(${(m + s / 60) * 6}deg)`;
+    secHand.style.transform  = `rotate(${(s + ms / 1000) * 6}deg)`;
   }
   updateClock();
   setInterval(updateClock, 1000);
@@ -312,7 +345,7 @@
 
       if (!images.length) {
         loading.style.display = 'none';
-        frame.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100%;color:#999;font-size:12px;">No images</div>';
+        frame.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100%;color:#c8b89a;font-size:11px;">No images</div>';
         return;
       }
       images.sort(() => Math.random() - 0.5);
@@ -362,33 +395,51 @@
     { text: "The best way to predict the future is to create it.", author: "Peter Drucker" }
   ];
 
-  const INTERVAL_MS  = 15000;
-  const container    = document.getElementById('quoteContainer');
+  const INTERVAL_MS = 15000;
+  const container   = document.getElementById('quoteContainer');
   quotes.sort(() => Math.random() - 0.5);
 
-  const slides = quotes.map(q => {
-    const slide = document.createElement('div');
-    slide.className = 'quote-slide';
-    let fs = 19;
-    if (q.text.length > 80)  fs = 17;
-    if (q.text.length > 100) fs = 15;
-    slide.innerHTML = `
-      <p class="quote-text" style="font-size:${fs}px">${q.text}</p>
-      <div class="divider"></div>
-      <p class="quote-author">${q.author}</p>
-    `;
-    container.appendChild(slide);
-    return slide;
-  });
+  // Responsive font size based on container width
+  const quoteInner = document.getElementById('quoteInner');
+  function getFs(len, containerW) {
+    const base = containerW < 280 ? 14 : 18;
+    if (len > 100) return base - 3;
+    if (len > 80)  return base - 1;
+    return base;
+  }
 
+  function buildSlides() {
+    container.innerHTML = '';
+    const w = quoteInner.clientWidth;
+    quotes.forEach(q => {
+      const slide = document.createElement('div');
+      slide.className = 'quote-slide';
+      slide.innerHTML = `
+        <p class="quote-text" style="font-size:${getFs(q.text.length, w)}px">${q.text}</p>
+        <div class="divider"></div>
+        <p class="quote-author">${q.author}</p>
+      `;
+      container.appendChild(slide);
+    });
+    return Array.from(container.querySelectorAll('.quote-slide'));
+  }
+
+  let slides = buildSlides();
   let current = 0;
   slides[0].classList.add('active');
 
+  // Rebuild on resize for responsive font
+  new ResizeObserver(() => {
+    const prevIdx = current;
+    slides = buildSlides();
+    current = prevIdx % slides.length;
+    slides[current].classList.add('active');
+  }).observe(quoteInner);
+
   if (slides.length > 1) {
     setInterval(() => {
-      const prev = current;
+      slides[current].classList.remove('active');
       current = (current + 1) % slides.length;
-      slides[prev].classList.remove('active');
       setTimeout(() => slides[current].classList.add('active'), 400);
     }, INTERVAL_MS);
   }
